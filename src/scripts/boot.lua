@@ -816,11 +816,11 @@ function love.errhand(msg)
 		return
 	end
 
-	love.graphics.setRenderTarget()
+	--love.graphics.setRenderTarget()
 
 	-- Load.
-	love.graphics.setScissor()
-	love.graphics.setBlendMode("alpha")
+	--love.graphics.setScissor()
+	--love.graphics.setBlendMode("alpha")
 	love.graphics.setBackgroundColor(89, 157, 220)
 	local font = love.graphics.newFont(14)
 	love.graphics.setFont(font)
@@ -850,7 +850,7 @@ function love.errhand(msg)
 
 	local function draw()
 		love.graphics.clear()
-		love.graphics.printf(p, 70, 70, love.graphics.getWidth() - 70)
+		love.graphics.printf(p, 70, 70, 250)--love.graphics.getWidth() - 70)
 		love.graphics.present()
 	end
 

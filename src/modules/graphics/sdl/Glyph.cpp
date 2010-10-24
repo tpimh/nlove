@@ -32,7 +32,7 @@ namespace sdl
 {
 
 	Glyph::Glyph(love::font::GlyphData * data, SDL_Surface *screen)
-		: data(data), width((float)data->getWidth()), height((float)data->getHeight()), screen(screen)
+		: data(data), width((float)data->getWidth()), height((float)data->getHeight()), screen(screen), surface(0)
 	{
 		data->retain();
 	}
