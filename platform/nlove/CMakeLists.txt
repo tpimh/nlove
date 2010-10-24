@@ -155,7 +155,6 @@ add_library (love SHARED
 	common/utf8.cpp
 	common/Vector.cpp
 	common/wrap_Data.cpp
-	resources/resources.cpp
 	libraries/luasocket/luasocket.cpp
 	libraries/luasocket/libluasocket/auxiliar.c
 	libraries/luasocket/libluasocket/buffer.c
