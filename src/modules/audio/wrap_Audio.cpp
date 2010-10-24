@@ -21,12 +21,14 @@
 // LOVE
 #include "wrap_Audio.h"
 
-#include "openal/Audio.h"
+#include "sdl/Audio.h"
 #include "null/Audio.h"
 
 #include <scripts/audio.lua.h>
 
 #include <common/runtime.h>
+
+#include <iostream>
 
 namespace love
 {
@@ -265,12 +267,12 @@ namespace audio
 
 	int luaopen_love_audio(lua_State * L)
 	{
-		if(instance == 0)
+		/*if(instance == 0)
 		{
 			// Try OpenAL first.
 			try
 			{
-				instance = new love::audio::openal::Audio();
+				instance = new love::audio::sdl::Audio();
 			}
 			catch(love::Exception & e)
 			{
@@ -279,7 +281,7 @@ namespace audio
 		}
 		else
 			instance->retain();
-
+		*/
 		if(instance == 0)
 		{
 			// Fall back to nullaudio.

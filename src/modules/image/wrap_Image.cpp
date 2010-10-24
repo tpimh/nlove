@@ -26,8 +26,8 @@
 #include <common/Data.h>
 #include <common/StringMap.h>
 
-#include "devil/Image.h"
-#include "devil/ImageData.h"
+#include "sdl/Image.h"
+#include "sdl/ImageData.h"
 
 namespace love
 {
@@ -109,7 +109,7 @@ namespace image
 		{
 			try
 			{
-				instance = new love::image::devil::Image();
+				instance = new love::image::sdl::Image();
 			}
 			catch(Exception & e)
 			{
