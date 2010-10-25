@@ -16,7 +16,10 @@ if [ -z $TOOLCHAIN ]; then
 	TOOLCHAIN=$PLATFORM
 fi
 
-cp platform/nlove/CMakeLists-${PLATFORM}.txt src/CMakeLists.txt
+cp platform/nlove/CMakeLists.txt src/CMakeLists.txt
+if [ "$PLATFORM" != "Generic" ]; then
+	patch -p0 src/CMakeLists.txt platform/nlove/CMakeLists-${PLATFORM}.patch
+fi
 mkdir platform/nlove/build 2> /dev/null
 cd platform/nlove/build
 if [ "$TOOLCHAIN" = "Generic" ]; then

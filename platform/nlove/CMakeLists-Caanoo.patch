@@ -1,0 +1,32 @@
+--- CMakeLists.txt	2010-10-25 15:43:55.000000000 +0200
++++ CMakeLists-Caanoo.txt	2010-10-25 15:43:55.000000000 +0200
+@@ -1,18 +1,19 @@
+-cmake_minimum_required (VERSION 2.8)
++#cmake_minimum_required (VERSION 2.8)
++CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+ 
+-set(PHYSFS_INCLUDE /usr/include/)
+-set(PHYSFS_LIBRARY physfs)
+-set(LUA_INCLUDE /usr/include/lua5.1)
+-set(LUA_LIBRARY lua5.1)
+-set(SDL_INCLUDE /usr/include/SDL)
+-set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
+-set(FREETYPE_INCLUDE /usr/include/freetype2)
+-set(FREETYPE_LIBRARY freetype)
++set(PHYSFS_INCLUDE ./libs/caanoo/include)
++set(PHYSFS_LIBRARY ./libs/caanoo/lib/libphysfs.a)
++set(LUA_INCLUDE ./libs/caanoo/include)
++set(LUA_LIBRARY ./libs/caanoo/lib/liblua.a)
++set(SDL_INCLUDE /gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL)
++set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer z)
++set(FREETYPE_INCLUDE /gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/freetype2)
++set(FREETYPE_LIBRARY /gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib/libfreetype.a)
+ 
+ include_directories(${PHYSFS_INCLUDE} ${LUA_INCLUDE} ${SDL_INCLUDE} ${FREETYPE_INCLUDE})
+ include_directories("." "modules")
+ 
+-add_library (love SHARED
++add_library (love STATIC
+ 	modules/filesystem/File.cpp
+ 	modules/filesystem/FileData.cpp
+ 	modules/filesystem/physfs/File.cpp
