@@ -45,11 +45,11 @@ namespace sdl
 		if (screen == 0 || surface == 0)
 			return;
 		SDL_Rect destrect;
-		destrect.x = x-ox;
-		destrect.y = y-oy;
+		destrect.x = x-fabs(ox*cos(angle))-fabs(oy*sin(angle));
+		destrect.y = y-fabs(oy*cos(angle))-fabs(ox*sin(angle));
 		if (angle != 0 || sx != 1 || sy != 1)
 		{
-			SDL_Surface *rotozoomed = rotozoomSurfaceXY(surface, LOVE_TODEG(angle), sx, sy, SMOOTHING_OFF);
+			SDL_Surface *rotozoomed = rotozoomSurfaceXY(surface, -LOVE_TODEG(angle), sx, sy, SMOOTHING_OFF);
 			SDL_BlitSurface(rotozoomed, 0, screen, &destrect);
 			SDL_FreeSurface(rotozoomed);
 		}
@@ -62,8 +62,8 @@ namespace sdl
 		if (screen == 0 || surface == 0)
 			return;
 		SDL_Rect srcrect, destrect;
-		destrect.x = x-ox;
-		destrect.y = y-oy;
+		destrect.x = x-fabs(ox*cos(angle))-fabs(oy*sin(angle));
+		destrect.y = y-fabs(oy*cos(angle))-fabs(ox*sin(angle));
 		Quad::Viewport v = quad->getViewport();
 		srcrect.x = v.x;
 		srcrect.y = v.y;
@@ -71,7 +71,7 @@ namespace sdl
 		srcrect.h = v.h;
 		if (angle != 0 || sx != 1 || sy != 1)
 		{
-			SDL_Surface *rotozoomed = rotozoomSurfaceXY(surface, LOVE_TODEG(angle), sx, sy, SMOOTHING_OFF);
+			SDL_Surface *rotozoomed = rotozoomSurfaceXY(surface, -LOVE_TODEG(angle), sx, sy, SMOOTHING_OFF);
 			SDL_BlitSurface(rotozoomed, &srcrect, screen, &destrect);
 			SDL_FreeSurface(rotozoomed);
 		}
