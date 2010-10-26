@@ -9,6 +9,10 @@ set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
 set(FREETYPE_INCLUDE /usr/include/freetype2)
 set(FREETYPE_LIBRARY freetype)
 
+set(LOVE_LITTLE_ENDIAN 1)
+set(LOVE_SCREEN_DEPTH 32)
+configure_file(common/config.h.cmake ../../../src/common/config.h)
+
 include_directories(${PHYSFS_INCLUDE} ${LUA_INCLUDE} ${SDL_INCLUDE} ${FREETYPE_INCLUDE})
 include_directories("." "modules")
 

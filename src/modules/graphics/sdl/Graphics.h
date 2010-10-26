@@ -29,6 +29,7 @@
 #include <SDL_gfxPrimitives.h>
 
 // LOVE
+#include <common/config.h>
 #include <graphics/Graphics.h>
 #include <image/ImageData.h>
 #include "Image.h"

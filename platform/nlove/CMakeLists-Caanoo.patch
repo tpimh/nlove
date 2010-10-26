@@ -1,6 +1,6 @@
---- CMakeLists.txt	2010-10-25 15:43:55.000000000 +0200
-+++ CMakeLists-Caanoo.txt	2010-10-25 15:43:55.000000000 +0200
-@@ -1,18 +1,19 @@
+--- CMakeLists.txt	2010-10-26 19:27:10.000000000 +0200
++++ CMakeLists-Caanoo.txt	2010-10-26 19:31:51.000000000 +0200
+@@ -1,22 +1,23 @@
 -cmake_minimum_required (VERSION 2.8)
 +#cmake_minimum_required (VERSION 2.8)
 +CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
@@ -21,6 +21,11 @@
 +set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer z)
 +set(FREETYPE_INCLUDE /gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/freetype2)
 +set(FREETYPE_LIBRARY /gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib/libfreetype.a)
+ 
+ set(LOVE_LITTLE_ENDIAN 1)
+-set(LOVE_SCREEN_DEPTH 32)
++set(LOVE_SCREEN_DEPTH 16)
+ configure_file(common/config.h.cmake ../../../src/common/config.h)
  
  include_directories(${PHYSFS_INCLUDE} ${LUA_INCLUDE} ${SDL_INCLUDE} ${FREETYPE_INCLUDE})
  include_directories("." "modules")

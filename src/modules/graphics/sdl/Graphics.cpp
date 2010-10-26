@@ -55,7 +55,7 @@ namespace sdl
 		Uint32 sdlflags = fullscreen ? SDL_FULLSCREEN : 0;
 
 		// Check if mode is supported
-		int bpp = SDL_VideoModeOK(width, height, 32, sdlflags);
+		int bpp = SDL_VideoModeOK(width, height, LOVE_SCREEN_DEPTH, sdlflags);
 
 		return (bpp >= 16);
 	}
@@ -66,7 +66,7 @@ namespace sdl
 		Uint32 sdlflags = fullscreen ? SDL_FULLSCREEN : 0;
 
 		// Have SDL set the video mode.
-		if((surface = SDL_SetVideoMode(width, height, 32, sdlflags)) == 0)
+		if((surface = SDL_SetVideoMode(width, height, LOVE_SCREEN_DEPTH, sdlflags)) == 0)
 		{
 			std::cerr << "Could not set video mode: "  << SDL_GetError() << std::endl;
 			return false;
