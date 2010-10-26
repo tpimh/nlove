@@ -1,0 +1,40 @@
+--- CMakeLists.txt	2010-10-26 18:56:46.000000000 +0200
++++ CMakeLists-Cygwin.txt	2010-10-26 12:51:28.000000000 +0200
+@@ -1,18 +1,20 @@
+ cmake_minimum_required (VERSION 2.8)
+ 
+-set(PHYSFS_INCLUDE /usr/include/)
+-set(PHYSFS_LIBRARY physfs)
+-set(LUA_INCLUDE /usr/include/lua5.1)
+-set(LUA_LIBRARY lua5.1)
+-set(SDL_INCLUDE /usr/include/SDL)
+-set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
++set(PHYSFS_INCLUDE /usr/local/include)
++set(PHYSFS_LIBRARY /usr/local/lib/libphysfs.a)
++set(LUA_INCLUDE /usr/local/include)
++set(LUA_LIBRARY /usr/local/lib/liblua.a)
++set(SDL_INCLUDE /usr/local/include/SDL)
++set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer z)
++set(SDL_LIBRARY_DIR -L/usr/local/lib)
+ set(FREETYPE_INCLUDE /usr/include/freetype2)
+-set(FREETYPE_LIBRARY freetype)
++set(FREETYPE_LIBRARY /lib/libfreetype.a)
++set(ZLIB_LIBRARY /lib/libz.a)
+ 
+ include_directories(${PHYSFS_INCLUDE} ${LUA_INCLUDE} ${SDL_INCLUDE} ${FREETYPE_INCLUDE})
+ include_directories("." "modules")
+ 
+-add_library (love SHARED
++add_library (love STATIC
+ 	modules/filesystem/File.cpp
+ 	modules/filesystem/FileData.cpp
+ 	modules/filesystem/physfs/File.cpp
+@@ -172,7 +174,7 @@
+ 	libraries/luasocket/libluasocket/usocket.c
+ )
+ 
+-target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY})
++target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${ZLIB_LIBRARY} ${SDL_LIBRARY_DIR} ${SDL_LIBRARY} ${FREETYPE_LIBRARY})
+ 
+ add_executable(nlove
+ 	love.cpp

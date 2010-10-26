@@ -17,15 +17,15 @@ if [ -z $TOOLCHAIN ]; then
 fi
 
 cp platform/nlove/CMakeLists.txt src/CMakeLists.txt
-if [ "$PLATFORM" != "Generic" ]; then
+if [ -f "platform/nlove/CMakeLists-${PLATFORM}.patch" ]; then
 	patch -p0 src/CMakeLists.txt platform/nlove/CMakeLists-${PLATFORM}.patch
 fi
 mkdir platform/nlove/build 2> /dev/null
 cd platform/nlove/build
-if [ "$TOOLCHAIN" = "Generic" ]; then
-	cmake ../../../src/
-else
+if [ -f "../XCompile-${TOOLCHAIN}.txt" ]; then
 	cmake ../../../src/ -DCMAKE_TOOLCHAIN_FILE=../XCompile-${TOOLCHAIN}.txt
+else
+	cmake ../../../src/
 fi
 make
 cp nlove ../../../
