@@ -23,8 +23,8 @@
 
 #define LOVE_LINUX 1
 
-#define LOVE_LITTLE_ENDIAN 1
-/* #undef LOVE_BIG_ENDIAN */
+#cmakedefine LOVE_LITTLE_ENDIAN 1
+#cmakedefine LOVE_BIG_ENDIAN 1
 
 #ifndef LOVE_BUILD
 #	define LOVE_BUILD
@@ -35,6 +35,6 @@
 
 #define LOVE_EXPORT
 
-#define LOVE_SCREEN_DEPTH 32
+#cmakedefine LOVE_SCREEN_DEPTH @LOVE_SCREEN_DEPTH@
 
 #endif // LOVE_CONFIG_H
