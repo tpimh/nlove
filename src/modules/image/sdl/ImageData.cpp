@@ -46,8 +46,6 @@ namespace sdl
 			0x000000ff,
 			0x00,
 		};
-		if (!origimage)
-			throw love::Exception("OMG, WTF, Error in IMG_Load_RW!\nError: %s", IMG_GetError());
 		image = SDL_ConvertSurface(origimage, &fmt, SDL_SRCALPHA | SDL_HWSURFACE);
 		SDL_FreeSurface(origimage);
 		bpp = 4;

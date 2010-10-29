@@ -55,7 +55,7 @@ namespace sdl
 			luax_convobj(L, 1, "filesystem", "newFile");
 
 		// Convert to ImageData, if necessary.
-		if(luax_istype(L, 1, FILESYSTEM_FILE_T) || luax_istype(L, 1, DATA_T))
+		if(luax_istype(L, 1, FILESYSTEM_FILE_T) || (luax_istype(L, 1, DATA_T) && !luax_istype(L, 1, IMAGE_IMAGE_DATA_T)))
 			luax_convobj(L, 1, "image", "newImageData");
 
 		love::image::ImageData * data = luax_checktype<love::image::ImageData>(L, 1, "ImageData", IMAGE_IMAGE_DATA_T);
