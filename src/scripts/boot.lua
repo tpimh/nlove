@@ -866,6 +866,9 @@ function love.errhand(msg)
 		if e == "kp" and a == "escape" then
 			return
 		end
+		if e == "jp" then
+			return
+		end
 
 		draw()
 
