@@ -1,0 +1,24 @@
+--- CMakeLists.txt	2010-10-30 11:55:42.000000000 +0200
++++ CMakeLists-NanoNote.txt	2010-10-30 11:56:22.000000000 +0200
+@@ -1,13 +1,13 @@
+ cmake_minimum_required (VERSION 2.8)
+ 
+-set(PHYSFS_INCLUDE /usr/include/)
+-set(PHYSFS_LIBRARY physfs)
+-set(LUA_INCLUDE /usr/include/lua5.1)
+-set(LUA_LIBRARY lua5.1)
+-set(SDL_INCLUDE /usr/include/SDL)
+-set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
+-set(FREETYPE_INCLUDE /usr/include/freetype2)
+-set(FREETYPE_LIBRARY freetype)
++set(PHYSFS_INCLUDE $ENV{STAGING_DIR}/usr/include/)
++set(PHYSFS_LIBRARY $ENV{STAGING_DIR}/usr/lib/libphysfs.so)
++set(LUA_INCLUDE $ENV{STAGING_DIR}/usr/include/lua)
++set(LUA_LIBRARY $ENV{STAGING_DIR}/usr/lib/liblua.so crypt)
++set(SDL_INCLUDE $ENV{STAGING_DIR}/usr/include/SDL)
++set(SDL_LIBRARY $ENV{STAGING_DIR}/usr/lib/libSDL.so $ENV{STAGING_DIR}/usr/lib/libSDL_image.so $ENV{STAGING_DIR}/usr/lib/libSDL_gfx.so $ENV{STAGING_DIR}/usr/lib/libSDL_mixer.so)
++set(FREETYPE_INCLUDE $ENV{STAGING_DIR}/usr/include/freetype2)
++set(FREETYPE_LIBRARY $ENV{STAGING_DIR}/usr/lib/libfreetype.so)
+ 
+ set(LOVE_LITTLE_ENDIAN 1)
+ set(LOVE_SCREEN_DEPTH 32)
