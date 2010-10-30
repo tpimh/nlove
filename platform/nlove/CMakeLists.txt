@@ -16,7 +16,7 @@ configure_file(common/config.h.cmake ../../../src/common/config.h)
 include_directories(${PHYSFS_INCLUDE} ${LUA_INCLUDE} ${SDL_INCLUDE} ${FREETYPE_INCLUDE})
 include_directories("." "modules")
 
-add_library (love SHARED
+add_library (love STATIC
 	modules/filesystem/File.cpp
 	modules/filesystem/FileData.cpp
 	modules/filesystem/physfs/File.cpp
