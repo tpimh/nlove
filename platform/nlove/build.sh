@@ -29,4 +29,10 @@ else
 	cmake ../../../src/
 fi
 make
+if [ -f "liblove.so" ]; then
+	cp liblove.so ../../../
+fi
+if [ -f "liblove.a" ]; then
+	cp liblove.a ../../../
+fi
 cp nlove ../../../
