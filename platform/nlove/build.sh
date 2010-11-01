@@ -17,7 +17,7 @@ if [ -z $TOOLCHAIN ]; then
 fi
 
 rm src/common/config.h
-cp platform/nlove/CMakeLists.txt src/CMakeLists.txt
+cp -u platform/nlove/CMakeLists.txt src/CMakeLists.txt
 if [ -f "platform/nlove/CMakeLists-${PLATFORM}.patch" ]; then
 	patch -p0 src/CMakeLists.txt platform/nlove/CMakeLists-${PLATFORM}.patch
 fi
