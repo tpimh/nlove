@@ -47,6 +47,11 @@ namespace sdl
 		luax_pushboolean(L, instance->setMode(w, h, fs, vsync, fsaa));
 		return 1;
 	}
+	
+	int w_getModes(lua_State * L)
+	{
+		return instance->getModes(L);
+	}
 
 	int w_newImage(lua_State * L)
 	{
@@ -417,6 +422,7 @@ namespace sdl
 	static const luaL_Reg functions[] = {
 		{ "checkMode", w_checkMode },
 		{ "setMode", w_setMode },
+		{ "getModes", w_getModes },
 		{ "newImage", w_newImage },
 		{ "draw", w_draw },
 		{ "present", w_present },

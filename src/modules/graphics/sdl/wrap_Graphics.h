@@ -41,6 +41,7 @@ namespace sdl
 	int w_present(lua_State * L);
 	int w_isCreated(lua_State * L);
 	int w_checkMode(lua_State * L);
+	int w_getModes(lua_State * L);
 	int w_setColor(lua_State * L);
 	int w_setBackgroundColor(lua_State * L);
 	int w_rectangle(lua_State * L);

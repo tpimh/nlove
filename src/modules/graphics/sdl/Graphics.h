@@ -61,6 +61,7 @@ namespace sdl
 		const char * getName() const;
 		bool checkMode(int width, int height, bool fullscreen);
 		bool setMode(int width, int height, bool fullscreen, bool vsync, int fsaa);
+		int getModes(lua_State * L);
 		SDL_Surface * getSurface();
 		void present();
 		void clear();

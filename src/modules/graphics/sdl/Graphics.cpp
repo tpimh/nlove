@@ -78,6 +78,42 @@ namespace sdl
 		return true;
 	}
 
+	int Graphics::getModes(lua_State * L)
+	{
+		SDL_Rect ** modes = SDL_ListModes(0, SDL_OPENGL | SDL_FULLSCREEN);
+
+		if(modes == (SDL_Rect **)0 || modes == (SDL_Rect **)-1)
+			return 0;
+
+		int index = 1;
+
+		lua_newtable(L);
+
+		for(int i=0;modes[i];++i)
+		{
+			lua_pushinteger(L, index);
+			lua_newtable(L);
+
+			// Inner table attribs.
+
+			lua_pushstring(L, "width");
+			lua_pushinteger(L, modes[i]->w);
+			lua_settable(L, -3);
+
+			lua_pushstring(L, "height");
+			lua_pushinteger(L, modes[i]->h);
+			lua_settable(L, -3);
+
+			// Inner table attribs end.
+
+			lua_settable(L, -3);
+
+			index++;
+		}
+
+		return 1;
+	}
+
 	SDL_Surface * Graphics::getSurface()
 	{
 		return surface;
