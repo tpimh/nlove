@@ -39,6 +39,8 @@
 
 #cmakedefine LOVE_HAS_FINITE
 
+#cmakedefine LOVE_PLATFORM @LOVE_PLATFORM@
+
 #ifdef LOVE_HAS_FINITE
 #	define b2finite(x) finite(x)
 #else

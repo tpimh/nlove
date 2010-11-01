@@ -1,6 +1,6 @@
 --- CMakeLists.txt	2010-10-30 19:30:36.124875000 +0200
 +++ CMakeLists-Cygwin.txt	2010-10-31 15:06:37.689000000 +0100
-@@ -1,13 +1,15 @@
+@@ -1,14 +1,16 @@
  cmake_minimum_required (VERSION 2.8)
  
 -set(PHYSFS_INCLUDE /usr/include/)
@@ -21,6 +21,7 @@
 +set(FREETYPE_LIBRARY /lib/libfreetype.a)
 +set(ZLIB_LIBRARY /lib/libz.a)
  
+ set(LOVE_PLATFORM "\"Generic\"")
  set(LOVE_LITTLE_ENDIAN 1)
  set(LOVE_SCREEN_DEPTH 32)
 @@ -176,7 +178,7 @@

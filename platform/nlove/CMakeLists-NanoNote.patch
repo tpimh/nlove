@@ -20,5 +20,6 @@
 +set(FREETYPE_INCLUDE $ENV{STAGING_DIR}/usr/include/freetype2)
 +set(FREETYPE_LIBRARY $ENV{STAGING_DIR}/usr/lib/libfreetype.so)
  
+-set(LOVE_PLATFORM "\"Generic\"")
++set(LOVE_PLATFORM "\"NanoNote\"")
  set(LOVE_LITTLE_ENDIAN 1)
- set(LOVE_SCREEN_DEPTH 32)

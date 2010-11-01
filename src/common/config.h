@@ -39,6 +39,8 @@
 
 #define LOVE_HAS_FINITE
 
+#define LOVE_PLATFORM "Generic"
+
 #ifdef LOVE_HAS_FINITE
 #	define b2finite(x) finite(x)
 #else

@@ -102,6 +102,9 @@ extern "C" LOVE_EXPORT int luaopen_love(lua_State * L)
 	lua_pushstring(L, love::VERSION_CODENAME);
 	lua_setfield(L, -2, "_version_codename");
 
+	lua_pushstring(L, LOVE_PLATFORM);
+	lua_setfield(L, -2, "_platform");
+
 #ifdef LOVE_LEGENDARY_CONSOLE_IO_HACK
 	lua_pushcfunction(L, w__openConsole);
 	lua_setfield(L, -2, "_openConsole");
