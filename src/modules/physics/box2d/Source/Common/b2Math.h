@@ -26,6 +26,8 @@
 
 #include <stdio.h>
 
+#include <common/config.h>
+
 #ifdef TARGET_FLOAT32_IS_FIXED
 
 inline Fixed b2Min(const Fixed& a, const Fixed& b)
@@ -60,7 +62,7 @@ inline bool b2IsValid(float32 x)
 #ifdef _MSC_VER
 	return _finite(x) != 0;
 #else
-	return finite(x) != 0;
+	return b2finite(x) != 0;
 #endif
 }
 

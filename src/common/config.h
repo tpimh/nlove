@@ -37,4 +37,12 @@
 
 #define LOVE_SCREEN_DEPTH 32
 
+#define LOVE_HAS_FINITE
+
+#ifdef LOVE_HAS_FINITE
+#	define b2finite(x) finite(x)
+#else
+#	define b2finite(x) (sizeof (x) == sizeof (float) ? __finitef (x) : __finite (x))
+#endif
+
 #endif // LOVE_CONFIG_H

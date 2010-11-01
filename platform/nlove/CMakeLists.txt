@@ -11,6 +11,7 @@ set(FREETYPE_LIBRARY freetype)
 
 set(LOVE_LITTLE_ENDIAN 1)
 set(LOVE_SCREEN_DEPTH 32)
+set(LOVE_HAS_FINITE 1)
 configure_file(common/config.h.cmake ../../../src/common/config.h)
 
 include_directories(${PHYSFS_INCLUDE} ${LUA_INCLUDE} ${SDL_INCLUDE} ${FREETYPE_INCLUDE})

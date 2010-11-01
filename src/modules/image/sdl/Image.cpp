@@ -33,12 +33,14 @@ namespace sdl
 {
 	Image::Image()
 	{
-		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+		//IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+		//Don't worry, SDL_Image does it implicitly anyway
 	}
 
 	Image::~Image()
 	{
-		IMG_Quit();
+		//IMG_Quit();
+		//Again, it should be handled.
 	}
 
 	const char * Image::getName() const
