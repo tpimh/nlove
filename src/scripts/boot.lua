@@ -216,14 +216,21 @@ end
 
 function love.init()
 
+	local resTable = {
+		Generic = { 800, 600 },
+		Caanoo = { 320, 240 },
+		Dingoo = { 320, 240 },
+		NanoNote = { 320, 240 }
+	}
+
 	-- Create default configuration settings.
 	local c = {
 		title = "Untitled",
 		author = "Unnamed",
 		version = 0,
 		screen = {
-			width = 800,
-			height = 600,
+			width = resTable[love._platform][1],
+			height = resTable[love._platform][2],
 			fullscreen = false,
 			vsync = true,
 			fsaa = 0,
@@ -788,12 +795,24 @@ RU5ErkJggg==]]
 		update_logo(dt)
 	end
 
+	function love.keypressed(key)
+		if key == "escape" or key == "q" or (key == "f4" and (love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt"))) then
+			love.event.push("q")
+		end
+	end
+
+	if love._platform == "Caanoo" then
+		function love.joystickreleased()
+			love.event.push("q")
+		end
+	end
+
 	function love.conf(t)
 		t.title = "LOVE " .. love._version_string .. " (" .. love._version_codename .. ")"
 		t.modules.audio = false
 		t.modules.sound = false
 		t.modules.physics = false
-		t.modules.joystick = false
+		t.modules.joystick = (love._platform == "Caanoo")
 	end
 
 end
