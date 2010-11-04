@@ -517,12 +517,12 @@ namespace sdl
 
 	int Graphics::getWidth()
 	{
-		return currentMode.width;
+		return currentMode.w;
 	}
 
 	int Graphics::getHeight()
 	{
-		return currentMode.height;
+		return currentMode.h;
 	}
 
 	bool Graphics::isCreated()
