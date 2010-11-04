@@ -506,6 +506,24 @@ namespace sdl
 	{
 		SDL_WM_SetCaption(caption, 0);
 	}
+	
+	int Graphics::getCaption(lua_State * L)
+	{
+		char * title = 0;
+		SDL_WM_GetCaption(&title, 0);
+		lua_pushstring(L, title);
+		return 1;
+	}
+
+	int Graphics::getWidth()
+	{
+		return currentMode.width;
+	}
+
+	int Graphics::getHeight()
+	{
+		return currentMode.height;
+	}
 
 	bool Graphics::isCreated()
 	{

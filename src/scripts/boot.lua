@@ -633,11 +633,13 @@ ETEhqi1oFvPQ3t8lsMBFDrh9NqgiIMgLJTnAEy5nVrQkqSUHHoClYTw491XbgGgZCvfacjsD
 RSBZQCBij9uKuYUcOr4HBNkLLuvN6OtJVuFKz4xOW9AHBn+UjgJGAT/m/FW9QwCi3AAAAABJ
 RU5ErkJggg==]]
 
+	local scalefactor
+
 	local function create_star(scale, speed)
 		return {
-			x0 = -100,
-			x = 1000,
-			y = math.random() * 600,
+			x0 = -100/scalefactor,
+			x = 1000/(scalefactor-0.2),
+			y = math.random() * (600/(scalefactor-0.2)),
 
 			r0 = math.random() * math.pi * 2,
 			rv = math.random() * math.pi * 4,
@@ -714,19 +716,19 @@ RU5ErkJggg==]]
 		local x = planet.x
 		local y = planet.y
 		local a = k.p + k.t
-		local h = 225 + 20 * (1 + math.sin(k.t0 + k.t))
-		love.graphics.draw(knoll1, x, y, a, .75, .75, 64, h)
+		local h = (225/scalefactor) + 20 * (1 + math.sin(k.t0 + k.t))
+		love.graphics.draw(knoll1, x, y, a, .75/scalefactor, .75/scalefactor, 64, h)
 	end
 
 	local function update_logo(dt)
-		logo.r = logo.r + dt
-		if logo.r > 360 then logo.r = logo.r - 360 end
-		logo.y = planet.y
+--		logo.r = logo.r + dt
+--		if logo.r > 360 then logo.r = logo.r - 360 end
+		logo.y = logo.pos + planet.y
 	end
 
 	local function update_planet(dt)
 		planet.t = planet.t + dt
-		planet.y = 300 + math.sin(planet.t)*30
+		planet.y = planet.pos + math.sin(planet.t)*30
 	end
 
 	local function load_image_b64(b64, filename)
@@ -736,21 +738,29 @@ RU5ErkJggg==]]
 	end
 
 	function love.load()
+		local scalefactors = {
+			[320] = 3.2,
+			[640] = 1.5,
+			[800] = 1.0
+		}
+		scalefactor = scalefactors[love.graphics.getWidth()] or 1.0
 
 		planet = {
-			x = 400,
-			y = 300,
-			w = 128,
-			h = 128,
+			x = 400/scalefactor,
+			y = 300/scalefactor,
+			w = 128/scalefactor,
+			h = 128/scalefactor,
+			pos = 300/scalefactor,
 			t = 0,
 			img = load_image_b64(planet_base64, "planet.png")
 		}
 
 		logo = {
-			x = 400,
-			y = 300,
-			w = 256,
-			h = 64,
+			x = 400/scalefactor,
+			y = 300/scalefactor,
+			w = 256/scalefactor,
+			h = 64/scalefactor,
+			pos = 6 * scalefactor,
 			r = 0,
 			img = load_image_b64(love_base64, "love.png")
 		}
@@ -763,12 +773,11 @@ RU5ErkJggg==]]
 		knolls = create_knolls(10)
 
 		-- Add star layers.
-		table.insert(layers, create_star_layer(100, 0.5, 0.5))
-		table.insert(layers, create_star_layer(70, 0.7, 0.7))
-		table.insert(layers, create_star_layer(50, 1, 1))
+		table.insert(layers, create_star_layer(100/scalefactor, 0.5, 0.5))
+		table.insert(layers, create_star_layer(70/scalefactor, 0.7, 0.7))
+		table.insert(layers, create_star_layer(50/scalefactor, 1, 1))
 
 		math.randomseed(os.time())
-
 	end
 
 	function love.draw()
@@ -776,12 +785,13 @@ RU5ErkJggg==]]
 			draw_star_layer(v)
 		end
 
-		for k, v in ipairs(knolls) do
-			draw_knoll(v)
-		end
+--		for k, v in ipairs(knolls) do
+--			draw_knoll(v)
+--		end
 
-		love.graphics.draw(planet.img, planet.x, planet.y, 0, 1, 1, planet.w, planet.h)
-		love.graphics.draw(logo.img, logo.x, logo.y, logo.r, 1, 1, logo.w/2, logo.h/2)
+		love.graphics.draw(planet.img, planet.x, planet.y, 0, 1/scalefactor, 1/scalefactor, planet.w, planet.h)
+		love.graphics.draw(logo.img, logo.x, logo.y, logo.r, 1/scalefactor, 1/scalefactor, logo.w/2, logo.h/2)
+		love.graphics.print("fps: " .. love.timer.getFPS(), 4, 2)
 	end
 
 	function love.update(dt)

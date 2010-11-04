@@ -76,6 +76,9 @@ namespace sdl
 		void triangle(DrawMode mode, float x1, float y1, float x2, float y2, float x3, float y3);
 		int polygon(lua_State * L);
 		void setCaption(const char * caption);
+		int getCaption(lua_State * L);
+		int getWidth();
+		int getHeight();
 		void setFont(Font * font);
 		Font *getFont();
 		void print(const char * str, float x, float y);

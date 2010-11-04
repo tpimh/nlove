@@ -201,6 +201,23 @@ namespace sdl
 		instance->setCaption(luaL_checkstring(L, 1));
 		return 0;
 	}
+	
+	int w_getCaption(lua_State * L)
+	{
+		return instance->getCaption(L);
+	}
+
+	int w_getWidth(lua_State * L)
+	{
+		lua_pushnumber(L, instance->getWidth());
+		return 1;
+	}
+
+	int w_getHeight(lua_State * L)
+	{
+		lua_pushnumber(L, instance->getHeight());
+		return 1;
+	}
 
 	int w_isCreated(lua_State * L)
 	{
@@ -436,6 +453,9 @@ namespace sdl
 		{ "triangle", w_triangle },
 		{ "polygon", w_polygon },
 		{ "setCaption", w_setCaption },
+		{ "getCaption", w_getCaption },
+		{ "getWidth", w_getWidth },
+		{ "getHeight", w_getHeight },
 		{ "isCreated", w_isCreated },
 		{ "newQuad", w_newQuad },
 		{ "drawq", w_drawq },

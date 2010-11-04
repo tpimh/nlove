@@ -51,6 +51,9 @@ namespace sdl
 	int w_triangle(lua_State * L);
 	int w_polygon(lua_State * L);
 	int w_setCaption(lua_State * L);
+	int w_getCaption(lua_State * L);
+	int w_getWidth(lua_State * L);
+	int w_getHeight(lua_State * L);
 	int w_newQuad(lua_State * L);
 	int w_newFont1(lua_State * L);
 	int w_newImageFont(lua_State * L);
