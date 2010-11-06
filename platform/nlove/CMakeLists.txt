@@ -75,18 +75,18 @@ add_library (love STATIC
 	modules/audio/wrap_Source.cpp
 	modules/audio/null/Audio.cpp
 	modules/audio/null/Source.cpp
-	#modules/audio/sdl/Audio.cpp
-	#modules/audio/sdl/Source.cpp
-	#modules/sound/Sound.cpp
-	#modules/sound/SoundData.cpp
-	#modules/sound/wrap_Decoder.cpp
-	#modules/sound/wrap_Sound.cpp
-	#modules/sound/wrap_SoundData.cpp
-	#modules/sound/lullaby/Decoder.cpp
+	modules/audio/sdl/Audio.cpp
+	modules/audio/sdl/Source.cpp
+	modules/sound/Sound.cpp
+	modules/sound/SoundData.cpp
+	modules/sound/wrap_Decoder.cpp
+	modules/sound/wrap_Sound.cpp
+	modules/sound/wrap_SoundData.cpp
+	modules/sound/lullaby/Decoder.cpp
 	#modules/sound/lullaby/ModPlugDecoder.cpp
 	#modules/sound/lullaby/Mpg123Decoder.cpp
-	#modules/sound/lullaby/Sound.cpp
-	#modules/sound/lullaby/VorbisDecoder.cpp
+	modules/sound/lullaby/Sound.cpp
+	modules/sound/lullaby/VorbisDecoder.cpp
 	modules/thread/sdl/Thread.cpp
 	modules/thread/sdl/wrap_Thread.cpp
 	modules/physics/Joint.cpp
@@ -178,7 +178,7 @@ add_library (love STATIC
 	libraries/luasocket/libluasocket/usocket.c
 )
 
-target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY})
+target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY} mpg123 vorbis vorbisfile ogg modplug)
 
 add_executable(nlove
 	love.cpp

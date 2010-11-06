@@ -28,61 +28,40 @@ namespace audio
 {
 namespace sdl
 {
-
-	int Source::seek(SDL_RWops *context, int offset, int whence)
+	void Source::music_callback(void *udata, Uint8 * stream, int len)
 	{
-		Source * thisS = (Source*) context->hidden.unknown.data1;
-		return thisS->decoder->seek(offset);
-	}
-
-	int Source::read(SDL_RWops *context, void *ptr, int size, int maxnum)
-	{
-		Source * thisS = (Source*) context->hidden.unknown.data1;
-		int decoded = thisS->decoder->decode();
-		int readnum = (decoded < size*maxnum) ? decoded : size*maxnum;
-		memcpy(ptr, thisS->decoder->getBuffer(), readnum);
-		return readnum;
-	}
-
-	int Source::close(SDL_RWops *context)
-	{
-		Source * thisS = (Source*) context->hidden.unknown.data1;
-		thisS->release();
-		SDL_FreeRW(context);
+		Source *thisS = (Source*) udata;
+		for (int i = 0; i < len;)
+		{
+			int numbytes = thisS->decoder->getSize()-thisS->bufferpos;
+			numbytes = len > numbytes ? numbytes : len;
+			memcpy(stream+i, ((char*) thisS->decoder->getBuffer())+thisS->bufferpos, numbytes);
+			thisS->bufferpos += numbytes;
+			i += numbytes;
+			if (thisS->bufferpos == thisS->decoder->getSize())
+			{
+				thisS->decoder->decode();
+				thisS->bufferpos = 0;
+				if (thisS->isFinished())
+					Mix_HookMusic(NULL, NULL);
+			}
+		}
 	}
 
 	Source::Source(love::sound::Decoder * decoder)
-		: love::audio::Source(Source::TYPE_STREAM), decoder(decoder)
+		: love::audio::Source(Source::TYPE_STREAM), decoder(decoder), bufferpos(0)
 	{
 		decoder->retain();
-		rw = getRWops();
-		music = Mix_LoadMUS_RW(rw);
 	}
 
 	Source::Source()
-	: love::audio::Source(Source::TYPE_STATIC)
+	: love::audio::Source(Source::TYPE_STATIC), bufferpos(0)
 	{
 	}
 
 	Source::~Source()
 	{
 		decoder->release();
-	}
-
-	SDL_RWops * Source::getRWops()
-	{
-		SDL_RWops * rw;
-		rw = SDL_AllocRW();
-		if (rw)
-		{
-			rw->seek = seek;
-			rw->read = read;
-			rw->write = 0;
-			rw->close = close;
-			rw->hidden.unknown.data1 = (void*) this;
-			this->retain();
-		}
-		return rw;
 	}
 
 	love::audio::Source * Source::copy()
@@ -95,7 +74,7 @@ namespace sdl
 	{
 		if (type == TYPE_STREAM)
 		{
-			Mix_PlayMusic(music, looping);
+			Mix_HookMusic(music_callback, this);
 		}
 	}
 
@@ -103,7 +82,7 @@ namespace sdl
 	{
 		if (type == TYPE_STREAM)
 		{
-			Mix_HaltMusic();
+			Mix_HookMusic(NULL, NULL);
 		}
 	}
 
@@ -135,7 +114,7 @@ namespace sdl
 	{
 		if (type == TYPE_STREAM)
 		{
-			return (!Mix_PlayingMusic() && Mix_PausedMusic());
+			return decoder->isFinished();
 		}
 		return true;
 	}
@@ -144,7 +123,7 @@ namespace sdl
 	{
 		if (type == TYPE_STREAM)
 		{
-			return (!Mix_PlayingMusic() && !Mix_PausedMusic());
+			return decoder->isFinished();
 		}
 		return true;
 	}

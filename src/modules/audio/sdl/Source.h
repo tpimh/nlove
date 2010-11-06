@@ -43,16 +43,11 @@ namespace sdl
 		float volume;
 		bool looping;
 
-		SDL_RWops * rw;
-		Mix_Music * music;
-
-		static int seek(SDL_RWops * context, int offset, int whence);
-		static int read(SDL_RWops * context, void *ptr, int size, int maxnum);
-		static int close(SDL_RWops * context);
+		static void music_callback(void *udata, Uint8 * stream, int len);
 
 		love::sound::Decoder * decoder;
 
-		SDL_RWops * getRWops();
+		int bufferpos;
 
 	public:
 		Source();

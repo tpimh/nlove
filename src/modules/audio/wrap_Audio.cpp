@@ -204,13 +204,13 @@ namespace audio
 		lua_pushnumber(L, v[2]);
 		return 3;
 	}
-	
+
 	int w_record(lua_State *)
 	{
 		instance->record();
 		return 0;
 	}
-	
+
 	int w_getRecordedData(lua_State * L)
 	{
 		love::sound::SoundData * sd = instance->getRecordedData();
@@ -218,7 +218,7 @@ namespace audio
 		else luax_newtype(L, "SoundData", SOUND_SOUND_DATA_T, (void*)sd);
 		return 1;
 	}
-	
+
 	int w_stopRecording(lua_State * L)
 	{
 		if (luax_optboolean(L, 1, true)) {
@@ -230,12 +230,12 @@ namespace audio
 		instance->stopRecording(false);
 		return 0;
 	}
-	
+
 	int w_canRecord(lua_State * L) {
 		luax_pushboolean(L, instance->canRecord());
 		return 1;
 	}
-	
+
 
 	// List of functions to wrap.
 	static const luaL_Reg functions[] = {
@@ -267,9 +267,9 @@ namespace audio
 
 	int luaopen_love_audio(lua_State * L)
 	{
-		/*if(instance == 0)
+		if(instance == 0)
 		{
-			// Try OpenAL first.
+			// Try SDL first.
 			try
 			{
 				instance = new love::audio::sdl::Audio();
@@ -281,7 +281,7 @@ namespace audio
 		}
 		else
 			instance->retain();
-		*/
+
 		if(instance == 0)
 		{
 			// Fall back to nullaudio.

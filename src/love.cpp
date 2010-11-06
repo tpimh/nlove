@@ -41,7 +41,7 @@
 #include <SDL.h>
 
 // Modules
-//#include <audio/wrap_Audio.h>
+#include <audio/wrap_Audio.h>
 #include <event/sdl/wrap_Event.h>
 #include <filesystem/physfs/wrap_Filesystem.h>
 #include <font/freetype/wrap_Font.h>
@@ -51,7 +51,7 @@
 #include <keyboard/sdl/wrap_Keyboard.h>
 #include <mouse/sdl/wrap_Mouse.h>
 #include <physics/box2d/wrap_Physics.h>
-//#include <sound/wrap_Sound.h>
+#include <sound/wrap_Sound.h>
 #include <timer/sdl/wrap_Timer.h>
 #include <thread/sdl/wrap_Thread.h>
 
@@ -66,7 +66,7 @@
 #ifdef LOVE_BUILD_STANDALONE
 
 static const luaL_Reg modules[] = {
-//	{ "love.audio", love::audio::luaopen_love_audio },
+	{ "love.audio", love::audio::luaopen_love_audio },
 	{ "love.event", love::event::sdl::luaopen_love_event },
 	{ "love.filesystem", love::filesystem::physfs::luaopen_love_filesystem },
 	{ "love.font", love::font::freetype::luaopen_love_font },
@@ -76,7 +76,7 @@ static const luaL_Reg modules[] = {
 	{ "love.keyboard", love::keyboard::sdl::luaopen_love_keyboard },
 	{ "love.mouse", love::mouse::sdl::luaopen_love_mouse },
 	{ "love.physics", love::physics::box2d::luaopen_love_physics },
-//	{ "love.sound", love::sound::luaopen_love_sound },
+	{ "love.sound", love::sound::luaopen_love_sound },
 	{ "love.timer", love::timer::sdl::luaopen_love_timer },
 	{ "love.thread", love::thread::sdl::luaopen_love_thread },
 	{ 0, 0 }
