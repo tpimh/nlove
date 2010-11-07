@@ -18,10 +18,9 @@
 +set(SDL_LIBRARY_DIR -L/usr/local/lib)
  set(FREETYPE_INCLUDE /usr/include/freetype2)
 -set(FREETYPE_LIBRARY freetype)
--set(LULLABY_LIBRARY vorbis vorbisfile ogg)
 +set(FREETYPE_LIBRARY /lib/libfreetype.a)
 +set(ZLIB_LIBRARY /lib/libz.a)
-+set(LULLABY_LIBRARY /usr/local/lib/libvorbis.a /usr/local/lib/libvorbisfile.a /usr/local/lib/libogg.a)
+ set(LULLABY_LIBRARY vorbisfile)
 
  set(LOVE_PLATFORM "\"Generic\"")
  set(LOVE_LITTLE_ENDIAN 1)

@@ -11,7 +11,7 @@
 -set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
 -set(FREETYPE_INCLUDE /usr/include/freetype2)
 -set(FREETYPE_LIBRARY freetype)
--set(LULLABY_LIBRARY vorbis vorbisfile ogg)
+-set(LULLABY_LIBRARY vorbisfile)
 +set(PHYSFS_INCLUDE $ENV{STAGING_DIR}/usr/include/)
 +set(PHYSFS_LIBRARY $ENV{STAGING_DIR}/usr/lib/libphysfs.so)
 +set(LUA_INCLUDE $ENV{STAGING_DIR}/usr/include/lua)
@@ -20,7 +20,7 @@
 +set(SDL_LIBRARY $ENV{STAGING_DIR}/usr/lib/libSDL.so $ENV{STAGING_DIR}/usr/lib/libSDL_image.so $ENV{STAGING_DIR}/usr/lib/libSDL_gfx.so $ENV{STAGING_DIR}/usr/lib/libSDL_mixer.so)
 +set(FREETYPE_INCLUDE $ENV{STAGING_DIR}/usr/include/freetype2)
 +set(FREETYPE_LIBRARY $ENV{STAGING_DIR}/usr/lib/libfreetype.so)
-+set(LULLABY_LIBRARY $ENV{STAGING_DIR}/usr/lib/libvorbis.so $ENV{STAGING_DIR}/usr/lib/libvorbisfile.so $ENV{STAGING_DIR}/usr/lib/libogg.so)
++set(LULLABY_LIBRARY $ENV{STAGING_DIR}/usr/lib/libvorbisidec.so)
 
 -set(LOVE_PLATFORM "\"Generic\"")
 +set(LOVE_PLATFORM "\"NanoNote\"")
