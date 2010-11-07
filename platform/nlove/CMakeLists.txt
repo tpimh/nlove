@@ -178,7 +178,7 @@ add_library (love STATIC
 	libraries/luasocket/libluasocket/usocket.c
 )
 
-target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY} mpg123 vorbis vorbisfile ogg modplug)
+target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY} vorbis vorbisfile ogg)
 
 add_executable(nlove
 	love.cpp
