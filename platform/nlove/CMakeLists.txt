@@ -8,6 +8,7 @@ set(SDL_INCLUDE /usr/include/SDL)
 set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
 set(FREETYPE_INCLUDE /usr/include/freetype2)
 set(FREETYPE_LIBRARY freetype)
+set(LULLABY_LUBRARY vorbis vorbisfile ogg)
 
 set(LOVE_PLATFORM "\"Generic\"")
 set(LOVE_LITTLE_ENDIAN 1)
@@ -178,7 +179,7 @@ add_library (love STATIC
 	libraries/luasocket/libluasocket/usocket.c
 )
 
-target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY} vorbis vorbisfile ogg)
+target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY} ${LULLABY_LIBRARY})
 
 add_executable(nlove
 	love.cpp

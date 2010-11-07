@@ -1,6 +1,6 @@
---- CMakeLists.txt	2010-10-30 11:55:42.000000000 +0200
-+++ CMakeLists-NanoNote.txt	2010-10-30 11:56:22.000000000 +0200
-@@ -1,13 +1,13 @@
+--- CMakeLists.txt	2010-11-07 13:18:45.000000000 +0100
++++ CMakeLists-NanoNote.txt	2010-11-07 13:18:44.000000000 +0100
+@@ -1,16 +1,16 @@
  cmake_minimum_required (VERSION 2.8)
  
 -set(PHYSFS_INCLUDE /usr/include/)
@@ -11,6 +11,7 @@
 -set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
 -set(FREETYPE_INCLUDE /usr/include/freetype2)
 -set(FREETYPE_LIBRARY freetype)
+-set(LULLABY_LUBRARY vorbis vorbisfile ogg)
 +set(PHYSFS_INCLUDE $ENV{STAGING_DIR}/usr/include/)
 +set(PHYSFS_LIBRARY $ENV{STAGING_DIR}/usr/lib/libphysfs.so)
 +set(LUA_INCLUDE $ENV{STAGING_DIR}/usr/include/lua)
@@ -19,7 +20,10 @@
 +set(SDL_LIBRARY $ENV{STAGING_DIR}/usr/lib/libSDL.so $ENV{STAGING_DIR}/usr/lib/libSDL_image.so $ENV{STAGING_DIR}/usr/lib/libSDL_gfx.so $ENV{STAGING_DIR}/usr/lib/libSDL_mixer.so)
 +set(FREETYPE_INCLUDE $ENV{STAGING_DIR}/usr/include/freetype2)
 +set(FREETYPE_LIBRARY $ENV{STAGING_DIR}/usr/lib/libfreetype.so)
++set(LULLABY_LUBRARY $ENV{STAGING_DIR}/usr/lib/libvorbis.so $ENV{STAGING_DIR}/usr/lib/libvorbisfile.so $ENV{STAGING_DIR}/usr/lib/libogg.so)
  
 -set(LOVE_PLATFORM "\"Generic\"")
 +set(LOVE_PLATFORM "\"NanoNote\"")
  set(LOVE_LITTLE_ENDIAN 1)
+ set(LOVE_SCREEN_DEPTH 32)
+ set(LOVE_HAS_FINITE 1)

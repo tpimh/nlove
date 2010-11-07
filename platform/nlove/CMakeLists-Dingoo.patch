@@ -1,9 +1,7 @@
---- CMakeLists.txt	2010-11-01 17:18:29.660000053 +0100
-+++ CMakeLists-Dingoo.txt	2010-11-01 17:47:50.913333384 +0100
-@@ -1,18 +1,19 @@
--cmake_minimum_required (VERSION 2.8)
-+#cmake_minimum_required (VERSION 2.8)
-+cmake_minimum_required (VERSION 2.4)
+--- CMakeLists.txt	2010-11-07 13:18:45.000000000 +0100
++++ CMakeLists-Dingoo.txt	2010-11-07 13:25:08.000000000 +0100
+@@ -1,19 +1,18 @@
+ cmake_minimum_required (VERSION 2.8)
  
 -set(PHYSFS_INCLUDE /usr/include/)
 -set(PHYSFS_LIBRARY physfs)
@@ -13,6 +11,7 @@
 -set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
 -set(FREETYPE_INCLUDE /usr/include/freetype2)
 -set(FREETYPE_LIBRARY freetype)
+-set(LULLABY_LUBRARY vorbis vorbisfile ogg)
 +set(PHYSFS_INCLUDE /tmp/libs/dingoo/include/)
 +set(PHYSFS_LIBRARY /tmp/libs/dingoo/lib/libphysfs.a)
 +set(LUA_INCLUDE /tmp/libs/dingoo/include/)
@@ -21,6 +20,7 @@
 +set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer z)
 +set(FREETYPE_INCLUDE /dingux/mipsel-linux-uclibc/include/freetype2)
 +set(FREETYPE_LIBRARY /dingux/mipsel-linux-uclibc/lib/libfreetype.a)
++set(LULLABY_LUBRARY /dingux/mipsel-linux-uclibc/lib/libvorbis.a /dingux/mipsel-linux-uclibc/lib/libvorbisfile.a /dingux/mipsel-linux-uclibc/lib/libogg.a)
  
 -set(LOVE_PLATFORM "\"Generic\"")
 +set(LOVE_PLATFORM "\"Dingoo\"")
@@ -28,7 +28,6 @@
 -set(LOVE_SCREEN_DEPTH 32)
 -set(LOVE_HAS_FINITE 1)
 +set(LOVE_SCREEN_DEPTH 16)
-+
  configure_file(common/config.h.cmake ../../../src/common/config.h)
  
  include_directories(${PHYSFS_INCLUDE} ${LUA_INCLUDE} ${SDL_INCLUDE} ${FREETYPE_INCLUDE})
