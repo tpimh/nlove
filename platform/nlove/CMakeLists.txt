@@ -8,7 +8,7 @@ set(SDL_INCLUDE /usr/include/SDL)
 set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
 set(FREETYPE_INCLUDE /usr/include/freetype2)
 set(FREETYPE_LIBRARY freetype)
-set(LULLABY_LUBRARY vorbis vorbisfile ogg)
+set(LULLABY_LIBRARY vorbis vorbisfile ogg)
 
 set(LOVE_PLATFORM "\"Generic\"")
 set(LOVE_LITTLE_ENDIAN 1)

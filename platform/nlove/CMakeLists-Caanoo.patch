@@ -4,7 +4,7 @@
 -cmake_minimum_required (VERSION 2.8)
 +#cmake_minimum_required (VERSION 2.8)
 +CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
- 
+
 -set(PHYSFS_INCLUDE /usr/include/)
 -set(PHYSFS_LIBRARY physfs)
 -set(LUA_INCLUDE /usr/include/lua5.1)
@@ -21,8 +21,8 @@
 +set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer z)
 +set(FREETYPE_INCLUDE /gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/freetype2)
 +set(FREETYPE_LIBRARY /gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib/libfreetype.a)
- set(LULLABY_LUBRARY vorbis vorbisfile ogg)
- 
+ set(LULLABY_LIBRARY vorbis vorbisfile ogg)
+
 -set(LOVE_PLATFORM "\"Generic\"")
 +set(LOVE_PLATFORM "\"Caanoo\"")
  set(LOVE_LITTLE_ENDIAN 1)
@@ -30,4 +30,4 @@
 +set(LOVE_SCREEN_DEPTH 16)
  set(LOVE_HAS_FINITE 1)
  configure_file(common/config.h.cmake ../../../src/common/config.h)
- 
+
