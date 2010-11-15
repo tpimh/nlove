@@ -43,25 +43,35 @@ namespace sdl
 				thisS->decoder->decode();
 				thisS->bufferpos = 0;
 				if (thisS->isFinished())
-					Mix_HookMusic(NULL, NULL);
+				{
+					if (thisS->isLooping())
+						Mix_HookMusic(music_callback, udata);
+					else
+						Mix_HookMusic(NULL, NULL);
+				}
 			}
 		}
 	}
 
 	Source::Source(love::sound::Decoder * decoder)
-		: love::audio::Source(Source::TYPE_STREAM), decoder(decoder), bufferpos(0)
+		: love::audio::Source(Source::TYPE_STREAM), looping(false), decoder(decoder), bufferpos(0)
 	{
 		decoder->retain();
 	}
 
-	Source::Source()
-	: love::audio::Source(Source::TYPE_STATIC), bufferpos(0)
+	Source::Source(love::sound::SoundData * sounddata)
+	: love::audio::Source(Source::TYPE_STATIC), looping(false), sounddata(sounddata), bufferpos(0)
 	{
+		sounddata->retain();
+		snd = Mix_QuickLoad_RAW((Uint8*) sounddata->getData(), (Uint32) sounddata->getSize());
 	}
 
 	Source::~Source()
 	{
-		decoder->release();
+		if (isStatic())
+			sounddata->release();
+		else
+			decoder->release();
 	}
 
 	love::audio::Source * Source::copy()
@@ -72,59 +82,56 @@ namespace sdl
 
 	void Source::play()
 	{
-		if (type == TYPE_STREAM)
-		{
+		if (isStatic())
+			sndchannel = Mix_PlayChannel(-1, snd, isLooping() ? -1 : 0);
+		else
 			Mix_HookMusic(music_callback, this);
-		}
 	}
 
 	void Source::stop()
 	{
-		if (type == TYPE_STREAM)
-		{
+		if (isStatic())
+			Mix_HaltChannel(sndchannel);
+		else
 			Mix_HookMusic(NULL, NULL);
-		}
 	}
 
 	void Source::pause()
 	{
-		if (type == TYPE_STREAM)
-		{
+		if (isStatic())
+			Mix_Pause(sndchannel);
+		else
 			Mix_PauseMusic();
-		}
 	}
 
 	void Source::resume()
 	{
-		if (type == TYPE_STREAM)
-		{
+		if (isStatic())
+			Mix_Resume(sndchannel);
+		else
 			Mix_ResumeMusic();
-		}
 	}
 
 	void Source::rewind()
 	{
-		if (type == TYPE_STREAM)
-		{
+		if (!isStatic())
 			Mix_RewindMusic();
-		}
 	}
 
 	bool Source::isStopped() const
 	{
-		if (type == TYPE_STREAM)
-		{
+		if (isStatic())
+			return !Mix_Playing(sndchannel);
+		else
 			return decoder->isFinished();
-		}
-		return true;
 	}
 
 	bool Source::isFinished() const
 	{
-		if (type == TYPE_STREAM)
-		{
+		if (isStatic())
+			return isStopped();
+		else
 			return decoder->isFinished();
-		}
 		return true;
 	}
 

@@ -25,6 +25,7 @@
 #include <common/Object.h>
 #include <audio/Source.h>
 #include <sound/Decoder.h>
+#include <sound/SoundData.h>
 
 // SDL
 #include <SDL_mixer.h>
@@ -45,12 +46,16 @@ namespace sdl
 
 		static void music_callback(void *udata, Uint8 * stream, int len);
 
+		Mix_Chunk *snd;
+		int sndchannel;
+
 		love::sound::Decoder * decoder;
+		love::sound::SoundData * sounddata;
 
 		int bufferpos;
 
 	public:
-		Source();
+		Source(love::sound::SoundData * sounddata);
 		Source(love::sound::Decoder * decoder);
 		virtual ~Source();
 

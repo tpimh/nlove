@@ -46,9 +46,9 @@ namespace sdl
 		return new Source(decoder);
 	}
 
-	love::audio::Source * Audio::newSource(love::sound::SoundData *)
+	love::audio::Source * Audio::newSource(love::sound::SoundData *sounddata)
 	{
-		return new Source();
+		return new Source(sounddata);
 	}
 
 	int Audio::getNumSources() const
