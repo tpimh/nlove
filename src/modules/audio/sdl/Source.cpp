@@ -129,7 +129,7 @@ namespace sdl
 	bool Source::isFinished() const
 	{
 		if (isStatic())
-			return isStopped();
+			return isStopped() && !Mix_Paused(sndchannel);
 		else
 			return decoder->isFinished();
 		return true;
