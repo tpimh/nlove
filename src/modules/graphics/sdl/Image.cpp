@@ -45,11 +45,13 @@ namespace sdl
 		if (screen == 0 || surface == 0)
 			return;
 		SDL_Rect destrect;
-		destrect.x = x-(ox*sx*cos(angle)-oy*sy*sin(angle));
+		destrect.x = x+(ox*sx*cos(angle)-oy*sy*sin(angle));
 		destrect.y = y-(ox*sx*sin(angle)+oy*sy*cos(angle));
 		if (angle != 0 || sx != 1 || sy != 1)
 		{
 			SDL_Surface *rotozoomed = rotozoomSurfaceXY(surface, -LOVE_TODEG(angle), sx, sy, SMOOTHING_OFF);
+			destrect.x = destrect.x-(rotozoomed->w-surface->w);
+			destrect.y = destrect.y-(rotozoomed->h-surface->h);
 			SDL_BlitSurface(rotozoomed, 0, screen, &destrect);
 			SDL_FreeSurface(rotozoomed);
 		}
