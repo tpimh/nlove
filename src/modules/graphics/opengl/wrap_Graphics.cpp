@@ -213,7 +213,13 @@ namespace opengl
 		// Convert to Data, if necessary.
 		if(luax_istype(L, 1, FILESYSTEM_FILE_T)) {
 			love::filesystem::File * f = luax_checktype<love::filesystem::File>(L, 1, "File", FILESYSTEM_FILE_T);
-			Data * d = f->read();
+			Data * d;
+			try {
+				d = f->read();
+			}
+			catch (love::Exception & e) {
+				return luaL_error(L, e.what());
+			}
 			lua_remove(L, 1); // get rid of the file
 			luax_newtype(L, "Data", DATA_T, (void*)d);
 			lua_insert(L, 1); // put it at the bottom of the stack
@@ -341,10 +347,31 @@ namespace opengl
 	int w_setColor(lua_State * L)
 	{
 		Color c;
-		c.r = (unsigned char)luaL_checkint(L, 1);
-		c.g = (unsigned char)luaL_checkint(L, 2);
-		c.b = (unsigned char)luaL_checkint(L, 3);
-		c.a = (unsigned char)luaL_optint(L, 4, 255);
+		if (lua_istable(L, 1)) {
+			lua_pushinteger(L, 1);
+			lua_gettable(L, -2);
+			c.r = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 2);
+			lua_gettable(L, -2);
+			c.g = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 3);
+			lua_gettable(L, -2);
+			c.b = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 4);
+			lua_gettable(L, -2);
+			c.a = (unsigned char)luaL_optint(L, -1, 255);
+			lua_pop(L, 1);
+		}
+		else
+		{
+			c.r = (unsigned char)luaL_checkint(L, 1);
+			c.g = (unsigned char)luaL_checkint(L, 2);
+			c.b = (unsigned char)luaL_checkint(L, 3);
+			c.a = (unsigned char)luaL_optint(L, 4, 255);
+		}
 		instance->setColor(c);
 		return 0;
 	}
@@ -362,9 +389,26 @@ namespace opengl
 	int w_setBackgroundColor(lua_State * L)
 	{
 		Color c;
-		c.r = (unsigned char)luaL_checkint(L, 1);
-		c.g = (unsigned char)luaL_checkint(L, 2);
-		c.b = (unsigned char)luaL_checkint(L, 3);
+		if (lua_istable(L, 1)) {
+			lua_pushinteger(L, 1);
+			lua_gettable(L, -2);
+			c.r = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 2);
+			lua_gettable(L, -2);
+			c.g = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 3);
+			lua_gettable(L, -2);
+			c.b = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+		}
+		else
+		{
+			c.r = (unsigned char)luaL_checkint(L, 1);
+			c.g = (unsigned char)luaL_checkint(L, 2);
+			c.b = (unsigned char)luaL_checkint(L, 3);
+		}
 		c.a = 255;
 		instance->setBackgroundColor(c);
 		return 0;
@@ -878,6 +922,12 @@ namespace opengl
 		return 0;
 	}
 
+	int w_hasFocus(lua_State * L)
+	{
+		luax_pushboolean(L, instance->hasFocus());
+		return 1;
+	}
+
 
 	// List of functions to wrap.
 	static const luaL_Reg functions[] = {
@@ -962,6 +1012,8 @@ namespace opengl
 		{ "scale", w_scale },
 
 		{ "translate", w_translate },
+
+		{ "hasFocus", w_hasFocus },
 
 		{ 0, 0 }
 	};

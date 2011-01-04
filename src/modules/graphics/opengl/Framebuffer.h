@@ -6,7 +6,6 @@
 #include <image/Image.h>
 #include <image/ImageData.h>
 #include <common/math.h>
-#include <map>
 #include "GLee.h"
 
 namespace love
@@ -15,7 +14,6 @@ namespace graphics
 {
 namespace opengl
 {
-
 	class Framebuffer : public Drawable, public Volatile
 	{
 	public:

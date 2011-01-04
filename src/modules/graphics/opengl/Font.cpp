@@ -19,6 +19,7 @@
 **/
 
 #include "Font.h"
+#include <font/GlyphData.h>
 
 #include <common/math.h>
 #include <math.h>
@@ -34,15 +35,19 @@ namespace opengl
 	: height(data->getHeight()), lineHeight(1.25), mSpacing(1)
 	{
 		glyphs = new Glyph*[MAX_CHARS];
+		type = FONT_UNKNOWN;
+		love::font::GlyphData * gd;
 
 		for(unsigned int i = 0; i < MAX_CHARS; i++)
 		{
-			glyphs[i] = new Glyph(data->getGlyphData(i));
+			gd = data->getGlyphData(i);
+			glyphs[i] = new Glyph(gd);
 			glyphs[i]->load();
-			widths[i] = data->getGlyphData(i)->getWidth();
-			spacing[i] = data->getGlyphData(i)->getAdvance();
-			bearingX[i] = data->getGlyphData(i)->getBearingX();
-			bearingY[i] = data->getGlyphData(i)->getBearingY();
+			widths[i] = gd->getWidth();
+			spacing[i] = gd->getAdvance();
+			bearingX[i] = gd->getBearingX();
+			bearingY[i] = gd->getBearingY();
+			if (type == FONT_UNKNOWN) type = (gd->getFormat() == love::font::GlyphData::FORMAT_LUMINANCE_ALPHA ? FONT_TRUETYPE : FONT_IMAGE);
 		}
 	}
 
@@ -67,6 +72,7 @@ namespace opengl
 
 	void Font::print(std::string text, float x, float y, float angle, float sx, float sy) const
 	{
+		float dx = 0.0f; // spacing counter for newline handling
 		glPushMatrix();
 
 		glTranslatef(ceil(x), ceil(y), 0.0f);
@@ -74,12 +80,18 @@ namespace opengl
 		glScalef(sx, sy, 1.0f);
 		for (unsigned int i = 0; i < text.size(); i++) {
 			unsigned char g = (unsigned char)text[i];
+			if (g == '\n') { // wrap newline, but do not print it
+				glTranslatef(-dx, floor(getHeight() + 0.5f), 0);
+				dx = 0.0f;
+				continue;
+			}
 			if (!glyphs[g]) g = 32; // space
 			glPushMatrix();
-			glTranslatef(0, round(getHeight()), 0);
+			if (type == FONT_TRUETYPE) glTranslatef(0, floor(getHeight() + 0.5f), 0);
 			glyphs[g]->draw(0, 0, 0, 1, 1, 0, 0);
 			glPopMatrix();
 			glTranslatef(spacing[g], 0, 0);
+			dx += spacing[g];
 		}
 		glPopMatrix();
 	}
@@ -88,7 +100,7 @@ namespace opengl
 	{
 		if (!glyphs[character]) character = ' ';
 		glPushMatrix();
-		glTranslatef(x, round(y+getHeight()), 0.0f);
+		glTranslatef(x, floor(y+getHeight() + 0.5f), 0.0f);
 		glCallList(list+character);
 		glPopMatrix();
 	}

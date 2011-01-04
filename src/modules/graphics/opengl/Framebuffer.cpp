@@ -1,46 +1,15 @@
 #include "Framebuffer.h"
 #include <common/Matrix.h>
 
-#include <string.h>
+#include <cstring> // For memcpy
 
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <algorithm>
-#include <iterator>
-using namespace std;
-
-namespace {
-
-	// functions to get opengl capabilities at runtime
-	vector<string> tokenize(const string& str)
-	{
-		vector<string> tokens;
-
-		istringstream iss( str );
-		copy(istream_iterator<string>(iss), istream_iterator<string>(),
-				back_inserter< vector<string> >(tokens));
-		return tokens;
-	}
-
-	float getOpenGLVersionNumber()
-	{
-		vector<string> tokens = tokenize( (const char*)glGetString(GL_VERSION) );
-		stringstream toNumber( tokens.at(0) );
-
-		double version;
-		toNumber >> version;
-		return version;
-	}
-
-	bool hasFramebufferExtension()
-	{
-		vector<string> ext = tokenize( (const char*)glGetString(GL_EXTENSIONS) );
-		return find(ext.begin(), ext.end(), "GL_EXT_framebuffer_object") != ext.end();
-	}
-
-
+namespace love
+{
+namespace graphics
+{
+namespace opengl
+{	
+		
 	// strategy for fbo creation, interchangable at runtime:
 	// none, opengl >= 3.0, extensions
 	struct FramebufferStrategy {
@@ -53,7 +22,7 @@ namespace {
 		 * @param[in]  height      Height of framebuffer
 		 * @return Creation status
 		 */
-		virtual GLenum createFBO(GLuint& framebuffer, GLuint& depthbuffer, GLuint& img, int width, int height)
+		virtual GLenum createFBO(GLuint&, GLuint&, GLuint&, int, int)
 		{ return GL_FRAMEBUFFER_UNSUPPORTED; }
 		/// remove objects
 		/**
@@ -61,11 +30,10 @@ namespace {
 		 * @param[in] depthbuffer Depthbuffer name
 		 * @param[in] img         Texture name
 		 */
-		virtual void deleteFBO(GLuint framebuffer, GLuint depthbuffer, GLuint img) {}
-		virtual void bindFBO(GLuint framebuffer) {}
+		virtual void deleteFBO(GLuint, GLuint, GLuint) {}
+		virtual void bindFBO(GLuint) {}
 	};
 
-#ifdef GL_VERSION_3_0
 	struct FramebufferStrategyGL3 : public FramebufferStrategy {
 		virtual GLenum createFBO(GLuint& framebuffer, GLuint& depthbuffer, GLuint& img, int width, int height)
 		{
@@ -109,7 +77,6 @@ namespace {
 			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		}
 	};
-#endif
 
 	struct FramebufferStrategyEXT : public FramebufferStrategy {
 
@@ -156,28 +123,21 @@ namespace {
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
 		}
 	};
-
-	FramebufferStrategy* strategy = NULL;
-
-	FramebufferStrategy    strategyNone;
-#ifdef GL_VERSION_3_0
+	
+	FramebufferStrategy* strategy;
+	
+	FramebufferStrategy strategyNone;
+	
 	FramebufferStrategyGL3 strategyGL3;
-#endif
+	
 	FramebufferStrategyEXT strategyEXT;
-
-};
-
-namespace love
-{
-namespace graphics
-{
-namespace opengl
-{
+	
 	Framebuffer* Framebuffer::current = NULL;
 
 	Framebuffer::Framebuffer(int width, int height) :
 		width(width), height(height)
 	{
+		strategy = NULL;
 
 		// world coordinates
 		vertices[0].x = 0;     vertices[0].y = 0;
@@ -192,17 +152,12 @@ namespace opengl
 		vertices[3].s = 1;     vertices[3].t = 1;
 
 		if (!strategy) {
-#ifdef GL_VERSION_3_0
-			if (getOpenGLVersionNumber() >= 3.0)
+			if (GLEE_VERSION_3_0 || GLEE_ARB_framebuffer_object)
 				strategy = &strategyGL3;
-			else if (hasFramebufferExtension())
-#else
-			if (hasFramebufferExtension())
-#endif
-			  strategy = &strategyEXT;
+			else if (GLEE_EXT_framebuffer_object)
+				strategy = &strategyEXT;
 			else
-			  strategy = &strategyNone;
-			
+				strategy = &strategyNone;
 		}
 
 		loadVolatile();
@@ -231,14 +186,25 @@ namespace opengl
 
 		// cleanup after previous fbo
 		if (current != NULL)
-			glPopAttrib();
+			current->stopGrab();
 
 		// bind buffer and clear screen
-		glPushAttrib(GL_VIEWPORT_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glPushAttrib(GL_VIEWPORT_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_TRANSFORM_BIT);
 		strategy->bindFBO(fbo);
 		glClearColor(.0f, .0f, .0f, .0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0, 0, width, height);
+		
+		// Reset the projection matrix
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		
+		// Set up orthographic view (no depth)
+		glOrtho(0.0, width, height, 0.0, -1.0, 1.0);
+		
+		// Switch back to modelview matrix
+		glMatrixMode(GL_MODELVIEW);
 
 		// indicate we are using this fbo
 		current = this;
@@ -252,6 +218,8 @@ namespace opengl
 
 		// bind default
 		strategy->bindFBO( 0 );
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
 		glPopAttrib();
 		current = NULL;
 	}
