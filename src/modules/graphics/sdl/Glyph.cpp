@@ -79,7 +79,7 @@ namespace sdl
 		height = data->getHeight();
 		surface = SDL_CreateRGBSurface(SDL_SRCALPHA | SDL_SWSURFACE, width, height, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 		SDL_LockSurface(surface);
-		if (data->getFormat() == love::font::GlyphData::FORMAT_LUMINOSITY_ALPHA)
+		if (data->getFormat() == love::font::GlyphData::FORMAT_LUMINANCE_ALPHA)
 		{
 			uint16_t *imgdata = (uint16_t*) data->getData();
 			uint32_t *surfdata = (uint32_t*) surface->pixels;

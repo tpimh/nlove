@@ -34,14 +34,19 @@ namespace sdl
 	: height(data->getHeight()), lineHeight(1.25), mSpacing(1)
 	{
 		glyphs = new Glyph*[MAX_CHARS];
+		type = FONT_UNKNOWN;
+		love::font::GlyphData * gd;
+
 		for(unsigned int i = 0; i < MAX_CHARS; i++)
 		{
-			glyphs[i] = new Glyph(data->getGlyphData(i), screen);
+			gd = data->getGlyphData(i);
+			glyphs[i] = new Glyph(gd, screen);
 			glyphs[i]->load();
-			widths[i] = data->getGlyphData(i)->getWidth();
-			spacing[i] = data->getGlyphData(i)->getAdvance();
-			bearingX[i] = data->getGlyphData(i)->getBearingX();
-			bearingY[i] = data->getGlyphData(i)->getBearingY();
+			widths[i] = gd->getWidth();
+			spacing[i] = gd->getAdvance();
+			bearingX[i] = gd->getBearingX();
+			bearingY[i] = gd->getBearingY();
+			if (type == FONT_UNKNOWN) type = (gd->getFormat() == love::font::GlyphData::FORMAT_LUMINANCE_ALPHA ? FONT_TRUETYPE : FONT_IMAGE);
 		}
 	}
 
@@ -75,7 +80,7 @@ namespace sdl
 	void Font::print(char character, float x, float y) const
 	{
 		if (!glyphs[character]) character = ' ';
-		glyphs[character]->draw(x, y+height, 0, 1, 1, 0, 0);
+		glyphs[character]->draw(x, y+(type==FONT_TRUETYPE ? height : 0), 0, 1, 1, 0, 0);
 	}
 
 	int Font::getWidth(const std::string & line) const

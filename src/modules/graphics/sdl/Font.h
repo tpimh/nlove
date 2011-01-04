@@ -39,10 +39,18 @@ namespace sdl
 	{
 	private:
 
+		enum FontType
+		{
+			FONT_TRUETYPE = 1,
+			FONT_IMAGE,
+			FONT_UNKNOWN
+		};
+
 		int height;
 		float lineHeight;
 		float mSpacing; // modifies the spacing by multiplying it with this value
 		Glyph ** glyphs;
+		FontType type;
 
 	public:
 		static const unsigned int MAX_CHARS = 256;

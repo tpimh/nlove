@@ -47,7 +47,7 @@ namespace sdl
 		luax_pushboolean(L, instance->setMode(w, h, fs, vsync, fsaa));
 		return 1;
 	}
-	
+
 	int w_getModes(lua_State * L)
 	{
 		return instance->getModes(L);
@@ -111,13 +111,60 @@ namespace sdl
 
 	int w_setColor(lua_State * L)
 	{
-		instance->setColor((unsigned char)luaL_checkint(L, 1), (unsigned char)luaL_checkint(L, 2), (unsigned char)luaL_checkint(L, 3), (unsigned char)luaL_optint(L, 4, 255));
+		int r, g, b, a;
+		if (lua_istable(L, 1)) {
+			lua_pushinteger(L, 1);
+			lua_gettable(L, -2);
+			r = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 2);
+			lua_gettable(L, -2);
+			g = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 3);
+			lua_gettable(L, -2);
+			b = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 4);
+			lua_gettable(L, -2);
+			a = (unsigned char)luaL_optint(L, -1, 255);
+			lua_pop(L, 1);
+		}
+		else
+		{
+			r = (unsigned char)luaL_checkint(L, 1);
+			g = (unsigned char)luaL_checkint(L, 2);
+			b = (unsigned char)luaL_checkint(L, 3);
+			a = (unsigned char)luaL_optint(L, 4, 255);
+		}
+		instance->setColor(r, g, b, a);
 		return 0;
 	}
 
 	int w_setBackgroundColor(lua_State * L)
 	{
-		instance->setBackgroundColor((unsigned char)luaL_checkint(L, 1), (unsigned char)luaL_checkint(L, 2), (unsigned char)luaL_checkint(L, 3));
+		int r, g, b;
+		if (lua_istable(L, 1)) {
+			lua_pushinteger(L, 1);
+			lua_gettable(L, -2);
+			r = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 2);
+			lua_gettable(L, -2);
+			g = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+			lua_pushinteger(L, 3);
+			lua_gettable(L, -2);
+			b = (unsigned char)luaL_checkint(L, -1);
+			lua_pop(L, 1);
+		}
+		else
+		{
+			r = (unsigned char)luaL_checkint(L, 1);
+			g = (unsigned char)luaL_checkint(L, 2);
+			b = (unsigned char)luaL_checkint(L, 3);
+		}
+		instance->setBackgroundColor(r, g, b);
 		return 0;
 	}
 
@@ -201,7 +248,7 @@ namespace sdl
 		instance->setCaption(luaL_checkstring(L, 1));
 		return 0;
 	}
-	
+
 	int w_getCaption(lua_State * L)
 	{
 		return instance->getCaption(L);
@@ -252,7 +299,13 @@ namespace sdl
 		// Convert to Data, if necessary.
 		if(luax_istype(L, 1, FILESYSTEM_FILE_T)) {
 			love::filesystem::File * f = luax_checktype<love::filesystem::File>(L, 1, "File", FILESYSTEM_FILE_T);
-			Data * d = f->read();
+			Data * d;
+			try {
+				d = f->read();
+			}
+			catch (love::Exception & e) {
+				return luaL_error(L, e.what());
+			}
 			lua_remove(L, 1); // get rid of the file
 			luax_newtype(L, "Data", DATA_T, (void*)d);
 			lua_insert(L, 1); // put it at the bottom of the stack
