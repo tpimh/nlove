@@ -96,7 +96,7 @@ namespace sdl
 				}
 				uint8_t lum = (imgdata[y*w+x] & 0xFF00) >> 8;
 				uint8_t alpha = (imgdata[y*w+x+1] & 0x00FF);
-				surfdata[y*w+x] = (lum << 24) | (lum << 16) | (lum << 8) | alpha;
+				surfdata[y*w+x] = (-1 & 0x00ffffff) | ((lum << 24 | lum) & 0xff000000);
 			}
 		}
 		else
