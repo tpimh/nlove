@@ -21,3 +21,8 @@
 ./modules/native/tcc/libtcc/stab.h
 ./libraries/luasocket/libluasocket/wsocket.*
 ./modules/sound/lullaby/FLACDecoder.*
+./modules/sound/lullaby/Mpg123Decoder.*
+./modules/sound/lullaby/ModPlugDecoder.*
+./modules/graphics/opengl/.*
+./modules/audio/openal/.*
+./modules/image/devil/.*
