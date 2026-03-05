@@ -220,7 +220,8 @@ function love.init()
 		Generic = { 800, 600 },
 		Caanoo = { 320, 240 },
 		Dingoo = { 320, 240 },
-		NanoNote = { 320, 240 }
+		NanoNote = { 320, 240 },
+		PSP = { 480, 272 } -- psp
 	}
 
 	-- Create default configuration settings.
@@ -740,6 +741,7 @@ RU5ErkJggg==]]
 	function love.load()
 		local scalefactors = {
 			[320] = 3.2,
+			[480] = 2.0,   -- padding
 			[640] = 1.5,
 			[800] = 1.0
 		}
