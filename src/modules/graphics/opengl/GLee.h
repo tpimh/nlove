@@ -62,10 +62,13 @@
     #define GL_GLEXT_LEGACY
 	#include <OpenGL/gl.h>
 #else // GLX
+	#define GL_GLEXT_LEGACY
 	#define __glext_h_  /* prevent glext.h from being included  */
-	#define __glxext_h_ /* prevent glxext.h from being included */
 	#define GLX_GLXEXT_PROTOTYPES
 	#include <GL/gl.h>
+	#include <stddef.h>
+	typedef ptrdiff_t GLintptr;
+	typedef ptrdiff_t GLsizeiptr;
 	#include <GL/glx.h>
 #endif
 
