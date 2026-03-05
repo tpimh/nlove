@@ -13,7 +13,11 @@
 #include "socket.h"
 #include "options.h"
 #include "unix.h"
-#include <sys/un.h> 
+#ifndef PSP
+#include <sys/un.h>
+#else
+#include "psp-un.h"
+#endif
 
 /*=========================================================================*\
 * Internal function prototypes
