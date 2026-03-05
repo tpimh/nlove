@@ -1,0 +1,53 @@
+--- CMakeLists.txt
++++ CMakeLists-PSP.txt
+@@ -1,16 +1,19 @@
+-cmake_minimum_required (VERSION 2.8)
++cmake_minimum_required (VERSION 3.11)
+ 
+-set(PHYSFS_INCLUDE /usr/include/)
++project(nlove)
++
++set(PSP_PREFIX $ENV{PSPDEV}/psp)
++set(PHYSFS_INCLUDE ${PSP_PREFIX}/include)
+ set(PHYSFS_LIBRARY physfs)
+-set(LUA_INCLUDE /usr/include/lua5.1)
+-set(LUA_LIBRARY lua5.1)
+-set(SDL_INCLUDE /usr/include/SDL)
+-set(SDL_LIBRARY SDL SDL_image SDL_gfx SDL_mixer)
+-set(FREETYPE_INCLUDE /usr/include/freetype2)
+-set(FREETYPE_LIBRARY freetype)
+-set(LULLABY_LIBRARY vorbisfile)
++set(LUA_INCLUDE ${PSP_PREFIX}/include)
++set(LUA_LIBRARY lua)
++set(SDL_INCLUDE ${PSP_PREFIX}/include/SDL)
++set(SDL_LIBRARY SDLmain SDL pspirkeyb SDL_image png16 jpeg SDL_gfx SDL_mixer z)
++set(FREETYPE_INCLUDE ${PSP_PREFIX}/include/freetype2)
++set(FREETYPE_LIBRARY freetype bz2)
++set(LULLABY_LIBRARY vorbisfile vorbis ogg pspdebug pspgu pspsdk pspctrl pspge pspdisplay psphprm psprtc pspaudio psppower)
+ 
+-set(LOVE_PLATFORM "\"Generic\"")
++set(LOVE_PLATFORM "\"PSP\"")
+ set(LOVE_LITTLE_ENDIAN 1)
+ set(LOVE_SCREEN_DEPTH 32)
+ set(LOVE_HAS_FINITE 1)
+@@ -179,10 +182,17 @@
+ 	libraries/luasocket/libluasocket/usocket.c
+ )
+ 
+-target_link_libraries(love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY} ${LULLABY_LIBRARY})
+-
+ add_executable(nlove
+ 	love.cpp
+ )
+ 
+-target_link_libraries(nlove love)
++target_link_libraries(nlove love ${PHYSFS_LIBRARY} ${LUA_LIBRARY} ${SDL_LIBRARY} ${FREETYPE_LIBRARY} ${LULLABY_LIBRARY})
++
++create_pbp_file(
++  TARGET nlove
++  ICON_PATH NULL
++  BACKGROUND_PATH NULL
++  PREVIEW_PATH NULL
++  TITLE "nLÖVE"
++  VERSION 01.00
++)

@@ -30,7 +30,9 @@ fi
 mkdir platform/nlove/build 2> /dev/null
 cd platform/nlove/build
 if [ $REBUILD ]; then
-	if [ -f "../XCompile-${TOOLCHAIN}.txt" ]; then
+	if [ "$PLATFORM" = "PSP" ]; then
+		cmake ../../../src/ -DCMAKE_TOOLCHAIN_FILE=$(psp-config --pspdev-path)/psp/share/pspdev.cmake
+	elif [ -f "../XCompile-${TOOLCHAIN}.txt" ]; then
 		cmake ../../../src/ -DCMAKE_TOOLCHAIN_FILE=../XCompile-${TOOLCHAIN}.txt
 	else
 		cmake ../../../src/

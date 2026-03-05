@@ -33,3 +33,5 @@ platform/msvc2010/*.txt
 platform/msvc2010/*.suo
 platform/msvc2010/*.sdf
 platform/msvc2010/*.ipch
+platform/nlove/build/
+src/CMakeLists.txt
