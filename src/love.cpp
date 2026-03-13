@@ -63,18 +63,7 @@
 
 #ifdef PSP
 #include <pspkernel.h>
-#include <pspdebug.h>
 PSP_MODULE_INFO("love", 0, 1, 1);
-
-int w_pspPrint(lua_State * L) {
-    int n = lua_gettop(L);
-    for (int i = 1; i <= n; i++) {
-        const char *s = luaL_checkstring(L, i);
-        pspDebugScreenPrintf("%s\t", s);
-    }
-    pspDebugScreenPrintf("\n");
-    return 0;
-}
 #endif // PSP
 
 #endif // LOVE_BUILD_EXE
@@ -263,11 +252,6 @@ extern "C" int main(int argc, char ** argv)
 		return 0;
 	}
 
-#ifdef PSP
-	pspDebugScreenInit();
-	pspDebugScreenPrintf("LOVE %s (%s) - Running on %s\n", love::VERSION_STR, love::VERSION_CODENAME, LOVE_PLATFORM);
-#endif
-
 	// Create the virtual machine.
 	lua_State * L = lua_open();
 	luaL_openlibs(L);
@@ -308,11 +292,6 @@ extern "C" int main(int argc, char ** argv)
 		lua_setfield(L, -2, "_exe");
 		lua_pop(L, 1);
 	}
-
-#ifdef PSP
-	lua_pushcfunction(L, w_pspPrint);
-	lua_setglobal(L, "print");
-#endif
 
 	// Boot
 	if (luaL_loadbuffer(L, (const char *)love::boot_lua, sizeof(love::boot_lua), "boot.lua") == 0)

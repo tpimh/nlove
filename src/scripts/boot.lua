@@ -67,6 +67,10 @@ end
 -- Converts any path into a full path.
 function love.path.getfull(p)
 
+	if love._platform == "PSP" then
+		return p -- already full path
+	end
+
 	if love.path.abs(p) then
 		return love.path.normalslashes(p)
 	end
@@ -216,6 +220,7 @@ end
 
 function love.init()
 
+	print("LOVE " .. love._version_string .. " (" .. love._version_codename .. ") on " .. love._platform) 
 	local resTable = {
 		Generic = { 800, 600 },
 		Caanoo = { 320, 240 },
@@ -813,7 +818,7 @@ RU5ErkJggg==]]
 		end
 	end
 
-	if love._platform == "Caanoo" then
+	if love._platform == "Caanoo" or love._platform == "PSP" then --
 		function love.joystickreleased()
 			love.event.push("q")
 		end
@@ -824,7 +829,7 @@ RU5ErkJggg==]]
 		t.modules.audio = false
 		t.modules.sound = false
 		t.modules.physics = false
-		t.modules.joystick = (love._platform == "Caanoo")
+		t.modules.joystick = (love._platform == "Caanoo" or love._platform == "PSP") --
 	end
 
 end
